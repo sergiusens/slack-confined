@@ -1,0 +1,62 @@
+name: slack
+version: 4.7.0
+summary: Slack strict
+description: Slack strict
+grade: stable
+confinement: strict
+base: core18
+
+parts:
+    slack:
+        plugin: dump
+        source: https://downloads.slack-edge.com/linux_releases/slack-desktop-4.7.0-amd64.deb
+        stage-packages:
+            - libxss1
+            - libnspr4
+            - libnss3
+            - libxkbfile1
+
+    slack-wrapper:
+        plugin: dump
+        source: files
+        organize:
+            'slack-wrapper': bin/
+
+    shm-preloader:
+        plugin: cmake
+        source: shm-preloader
+        build-packages:
+            - gcc
+            - g++
+
+apps:
+    slack:
+        autostart: slack.desktop
+        desktop: usr/share/applications/slack.desktop
+        command: bin/slack-wrapper
+        extensions: [gnome-3-34]
+        plugs:
+            - bluez
+            - browser-support
+            - camera
+            - config-slack
+            - desktop
+            - desktop-legacy
+            - gsettings
+            - home
+            - mount-observe
+            - network
+            - network-observe
+            - opengl
+            - password-manager-service
+            - pulseaudio
+            - screen-inhibit-control
+            - unity7
+            - wayland
+            - x11
+
+plugs:
+   config-slack:
+     interface: personal-files
+     read:
+         - $HOME/.config/Slack
