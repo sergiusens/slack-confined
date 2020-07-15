@@ -1,8 +1,6 @@
 #!/bin/bash -x
 
 # Migrate data from the classic
-export | grep chris
-
 OLD_CONFIG="$HOME/../../../.config/Slack"
 NEW_CONFIG="$SNAP_USER_DATA/.config/Slack"
 
